@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="us.xingkong.user.biz.dao.UserDao">
+  <resultMap id="BaseResultMap" type="us.xingkong.user.biz.entity.User">
+    <id column="UserId" jdbcType="INTEGER" property="userId" />
+    <result column="StudentName" jdbcType="VARCHAR" property="studentName" />
+    <result column="StudentId" jdbcType="VARCHAR" property="studentId" />
+    <result column="StudentPw" jdbcType="VARCHAR" property="studentPw" />
+    <result column="StudentFaculty" jdbcType="VARCHAR" property="studentFaculty" />
+    <result column="StudentProfession" jdbcType="VARCHAR" property="studentProfession" />
+    <result column="StudentClass" jdbcType="VARCHAR" property="studentClass" />
+    <result column="MobilePhone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="Status" jdbcType="TINYINT" property="status" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UserId, StudentName, StudentId, StudentPw, StudentFaculty, StudentProfession, StudentClass, 
+    MobilePhone, Status, CreateTime, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where UserId = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where UserId = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="us.xingkong.user.biz.entity.User">
+    insert into user (UserId, StudentName, StudentId, 
+      StudentPw, StudentFaculty, StudentProfession, 
+      StudentClass, MobilePhone, Status, 
+      CreateTime, UpdateTime)
+    values (#{userId,jdbcType=INTEGER}, #{studentName,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, 
+      #{studentPw,jdbcType=VARCHAR}, #{studentFaculty,jdbcType=VARCHAR}, #{studentProfession,jdbcType=VARCHAR}, 
+      #{studentClass,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="us.xingkong.user.biz.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        UserId,
+      </if>
+      <if test="studentName != null">
+        StudentName,
+      </if>
+      <if test="studentId != null">
+        StudentId,
+      </if>
+      <if test="studentPw != null">
+        StudentPw,
+      </if>
+      <if test="studentFaculty != null">
+        StudentFaculty,
+      </if>
+      <if test="studentProfession != null">
+        StudentProfession,
+      </if>
+      <if test="studentClass != null">
+        StudentClass,
+      </if>
+      <if test="mobilePhone != null">
+        MobilePhone,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="createTime != null">
+        CreateTime,
+      </if>
+      <if test="updateTime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null">
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentPw != null">
+        #{studentPw,jdbcType=VARCHAR},
+      </if>
+      <if test="studentFaculty != null">
+        #{studentFaculty,jdbcType=VARCHAR},
+      </if>
+      <if test="studentProfession != null">
+        #{studentProfession,jdbcType=VARCHAR},
+      </if>
+      <if test="studentClass != null">
+        #{studentClass,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="us.xingkong.user.biz.entity.User">
+    update user
+    <set>
+      <if test="studentName != null">
+        StudentName = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        StudentId = #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentPw != null">
+        StudentPw = #{studentPw,jdbcType=VARCHAR},
+      </if>
+      <if test="studentFaculty != null">
+        StudentFaculty = #{studentFaculty,jdbcType=VARCHAR},
+      </if>
+      <if test="studentProfession != null">
+        StudentProfession = #{studentProfession,jdbcType=VARCHAR},
+      </if>
+      <if test="studentClass != null">
+        StudentClass = #{studentClass,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        MobilePhone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        CreateTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UpdateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UserId = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="us.xingkong.user.biz.entity.User">
+    update user
+    set StudentName = #{studentName,jdbcType=VARCHAR},
+      StudentId = #{studentId,jdbcType=VARCHAR},
+      StudentPw = #{studentPw,jdbcType=VARCHAR},
+      StudentFaculty = #{studentFaculty,jdbcType=VARCHAR},
+      StudentProfession = #{studentProfession,jdbcType=VARCHAR},
+      StudentClass = #{studentClass,jdbcType=VARCHAR},
+      MobilePhone = #{mobilePhone,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=TINYINT},
+      CreateTime = #{createTime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where UserId = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

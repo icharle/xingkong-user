@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--数据库连接池-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/xingkong_user"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <!-- 最大并发连接数 -->
+        <property name="maxActive" value="30"/>
+        <!-- 最小空闲连接数 -->
+        <property name="minIdle" value="5"/>
+        <!-- 用于显示数据源监控中的sql语句监控 -->
+        <property name="filters" value="stat"/>
+    </bean>
+
+    <!-- 配置sqlsessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath:config/mapper/*.xml"/>
+        <property name="typeAliasesPackage" value="us.xingkong.user.biz.entity" />
+        <property name="configLocation" value="classpath:config/mybatis/mybatis-configuration.xml"/>
+    </bean>
+
+    <!-- 配置扫描包，加载mapper代理对象 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="us.xingkong.user.biz.dao" />
+    </bean>
+
+</beans>
