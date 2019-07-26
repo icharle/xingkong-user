@@ -5,9 +5,9 @@ import org.springframework.context.annotation.ImportResource;
 
 /**
  * @Author: Icharle
- * @Date: 2019-07-26 11:19
+ * @Date: 2019-07-26 15:59
  */
 @Configuration
 @ImportResource(locations = {"classpath:config/spring/*.xml"})
-public class Config {
+public class AppConfig {
 }

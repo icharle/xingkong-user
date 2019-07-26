@@ -6,4 +6,8 @@ package us.xingkong.user.api.service;
  */
 public interface UserService {
 
+    String sayHello(String name);
+
+    String queryById(Integer id);
+
 }

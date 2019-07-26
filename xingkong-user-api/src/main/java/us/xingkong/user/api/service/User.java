@@ -1,4 +1,4 @@
-package us.xingkong.user.biz.entity;
+package us.xingkong.user.api.service;
 
 import lombok.Data;
 
