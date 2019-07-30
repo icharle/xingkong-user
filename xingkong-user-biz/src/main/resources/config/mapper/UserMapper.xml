@@ -18,27 +18,51 @@
     UserId, StudentName, StudentId, StudentPw, StudentFaculty, StudentProfession, StudentClass, 
     MobilePhone, Status, CreateTime, UpdateTime
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+
+  <sql id="select_where">
+    <where>
+      1=1
+      <if test="user.userId != null">
+        AND UserId = #{user.userId,jdbcType=INTEGER}
+      </if>
+      <if test="user.studentName != null">
+        AND StudentName = #{user.studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="user.studentId != null">
+        AND StudentId = #{user.studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="user.studentPw != null">
+        AND StudentPw = #{user.studentPw,jdbcType=VARCHAR},
+      </if>
+      <if test="user.studentFaculty != null">
+        AND StudentFaculty = #{user.studentFaculty,jdbcType=VARCHAR},
+      </if>
+      <if test="user.studentProfession != null">
+        AND StudentProfession = #{user.studentProfession,jdbcType=VARCHAR},
+      </if>
+      <if test="user.studentClass != null">
+        AND StudentClass = #{user.studentClass,jdbcType=VARCHAR},
+      </if>
+      <if test="user.mobilePhone != null">
+        AND MobilePhone = #{user.mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="user.status != null">
+        AND Status = #{user.status,jdbcType=TINYINT},
+      </if>
+    </where>
+  </sql>
+
+  <select id="selectByuserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from user
     where UserId = #{userId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByuserId" parameterType="java.lang.Integer">
     delete from user
     where UserId = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="us.xingkong.user.biz.entity.User">
-    insert into user (UserId, StudentName, StudentId, 
-      StudentPw, StudentFaculty, StudentProfession, 
-      StudentClass, MobilePhone, Status, 
-      CreateTime, UpdateTime)
-    values (#{userId,jdbcType=INTEGER}, #{studentName,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, 
-      #{studentPw,jdbcType=VARCHAR}, #{studentFaculty,jdbcType=VARCHAR}, #{studentProfession,jdbcType=VARCHAR}, 
-      #{studentClass,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="us.xingkong.user.biz.entity.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -111,7 +135,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="us.xingkong.user.biz.entity.User">
+  <update id="updateByUserId" parameterType="us.xingkong.user.biz.entity.User">
     update user
     <set>
       <if test="studentName != null">
@@ -142,34 +166,11 @@
         CreateTime = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        UpdateTime = #{updateTime,jdbcType=TIMESTAMP},
+        UpdateTime = NOW(),
       </if>
     </set>
     where UserId = #{userId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="us.xingkong.user.biz.entity.User">
-    update user
-    set StudentName = #{studentName,jdbcType=VARCHAR},
-      StudentId = #{studentId,jdbcType=VARCHAR},
-      StudentPw = #{studentPw,jdbcType=VARCHAR},
-      StudentFaculty = #{studentFaculty,jdbcType=VARCHAR},
-      StudentProfession = #{studentProfession,jdbcType=VARCHAR},
-      StudentClass = #{studentClass,jdbcType=VARCHAR},
-      MobilePhone = #{mobilePhone,jdbcType=VARCHAR},
-      Status = #{status,jdbcType=TINYINT},
-      CreateTime = #{createTime,jdbcType=TIMESTAMP},
-      UpdateTime = #{updateTime,jdbcType=TIMESTAMP}
-    where UserId = #{userId,jdbcType=INTEGER}
-  </update>
-
-  <sql id="select_where">
-    <where>
-      1=1
-      <if test="user.userId != null">
-        AND UserId = #{user.userId,jdbcType=INTEGER}
-      </if>
-    </where>
-  </sql>
 
   <select id="pageQueryAll" resultType="us.xingkong.user.biz.entity.User">
     select

@@ -1,7 +1,5 @@
 package us.xingkong.user.biz.dao;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import us.xingkong.user.biz.entity.User;
 
@@ -13,17 +11,13 @@ import java.util.List;
  */
 public interface UserDao {
 
-    int deleteByPrimaryKey(Integer userId);
+    int deleteByuserId(Integer userId);
 
-    int insert(User record);
+    int insert(User user);
 
-    int insertSelective(User record);
+    User selectByuserId(Integer userId);
 
-    User selectByPrimaryKey(Integer userId);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKey(User record);
+    int updateByUserId(User user);
 
     List<User> pageQueryAll(@Param("pageNum") int pageNum,
                             @Param("pageSize") int pageSize,
