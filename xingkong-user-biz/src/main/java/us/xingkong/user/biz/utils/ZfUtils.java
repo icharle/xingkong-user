@@ -1,12 +1,14 @@
 package us.xingkong.user.biz.utils;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.jsoup.Jsoup;
+import org.apache.http.client.CookieStore;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * @Author: Icharle
@@ -34,24 +36,34 @@ public class ZfUtils {
     }
 
     /**
-     * 获取到__VIEWSTATE值
+     * 保存cookie
      *
-     * @param url
-     * @param cookie
-     * @param referer
-     * @return
+     * @param cookieStore cookie
+     * @param savePath    文件路径
+     * @throws IOException
      */
-    public static String getViewState(String url, String cookie, String referer) throws IOException {
-        HttpClient httpClient = new HttpClient();
-        GetMethod getViewState = new GetMethod(url);
-        getViewState.setRequestHeader("Cookie", cookie);
-        getViewState.setRequestHeader("Referer", referer);
-
-        httpClient.executeMethod(getViewState);
-        String s = new String(getViewState.getResponseBody(), "GB2312");
-        String viewState = Jsoup.parse(s).select("input[name=__VIEWSTATE]")
-                .val();
-        return viewState;
+    public static void saveCookieStore(CookieStore cookieStore, String savePath) throws IOException {
+        FileOutputStream fs = new FileOutputStream(savePath);
+        ObjectOutputStream os = new ObjectOutputStream(fs);
+        os.writeObject(cookieStore);
+        os.close();
     }
+
+    /**
+     * 读取cookie
+     *
+     * @param savePath 文件路径
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public static CookieStore readCookieStore(String savePath) throws IOException, ClassNotFoundException {
+        FileInputStream fs = new FileInputStream(savePath);
+        ObjectInputStream ois = new ObjectInputStream(fs);
+        CookieStore cookieStore = (CookieStore) ois.readObject();
+        ois.close();
+        return cookieStore;
+    }
+
 
 }
