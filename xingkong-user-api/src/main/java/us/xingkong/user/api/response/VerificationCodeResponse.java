@@ -1,4 +1,4 @@
-package us.xingkong.user.api.Response;
+package us.xingkong.user.api.response;
 
 import lombok.Data;
 

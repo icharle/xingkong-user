@@ -1,6 +1,7 @@
 package us.xingkong.user.api.remoteservice;
 
-import us.xingkong.user.api.Response.VerificationCodeResponse;
+import us.xingkong.user.api.request.JwxtRequest;
+import us.xingkong.user.api.response.VerificationCodeResponse;
 import us.xingkong.user.api.utils.Response;
 
 
@@ -11,5 +12,7 @@ import us.xingkong.user.api.utils.Response;
 public interface ZFanSystemApi {
 
     Response<VerificationCodeResponse> verificationCode();
+
+    Response<Boolean> jwxtLogin(JwxtRequest jwxtRequest);
 
 }

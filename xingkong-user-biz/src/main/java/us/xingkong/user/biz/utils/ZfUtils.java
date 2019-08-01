@@ -1,6 +1,9 @@
 package us.xingkong.user.biz.utils;
 
 import org.apache.http.client.CookieStore;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -57,12 +60,31 @@ public class ZfUtils {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static CookieStore readCookieStore(String savePath) throws IOException, ClassNotFoundException {
+    public static String readCookieStore(String savePath) throws IOException, ClassNotFoundException {
         FileInputStream fs = new FileInputStream(savePath);
         ObjectInputStream ois = new ObjectInputStream(fs);
         CookieStore cookieStore = (CookieStore) ois.readObject();
         ois.close();
-        return cookieStore;
+        return String.valueOf(cookieStore);
+    }
+
+    /**
+     * 获取__VIEWSTATE
+     *
+     * @param url
+     * @param cookie
+     * @param referer
+     * @return
+     * @throws IOException
+     */
+    public static String getViewState(String url, String cookie, String referer) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+
+        HttpGet getViewState = new HttpGet(url);
+        getViewState.setHeader("Cookie", cookie);
+        getViewState.setHeader("Referer", referer);
+        InputStream is = httpClient.execute(getViewState).getEntity().getContent();
+        return toEncoding(is, "GB2312");
     }
 
 

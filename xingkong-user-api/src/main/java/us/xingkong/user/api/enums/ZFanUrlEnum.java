@@ -11,11 +11,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ZFanUrlEnum {
 
-    JW_CODE_URL("http://jwxt.gcu.edu.cn/CheckCode.aspx","验证码链接"),
+    JW_CODE_URL("http://jwxt.gcu.edu.cn/CheckCode.aspx", "验证码链接"),
     JW_LOGIN_URL("http://jwxt.gcu.edu.cn/default2.aspx", "登录页链接"),
     JW_SCORE_URL("http://jwxt.gcu.edu.cn/xscjcx.aspx", "成绩查询页链接"),
     JW_COURSE_URL("http://jwxt.gcu.edu.cn/xskbcx.aspx", "课表查询页链接"),
-    JW_EXAM_URL("http://jwxt.gcu.edu.cn/xskscx.aspx", "考试安排查询页链接");
+    JW_EXAM_URL("http://jwxt.gcu.edu.cn/xskscx.aspx", "考试安排查询页链接"),
+    JW_COOKIE_SAVE("/Applications/Java/xingkong-admin/cookie/", "cookie文件保存地址"),
+    JW_CODE_SAVE("/Applications/Java/xingkong-admin/pic/", "验证码图片保存地址");
 
     private String url;
     private String desc;

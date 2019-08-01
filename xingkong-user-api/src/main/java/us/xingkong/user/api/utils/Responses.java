@@ -14,6 +14,12 @@ public abstract class Responses {
         return response;
     }
 
+    public static <T> Response<T> of(T data, String msg) {
+        Response<T> response = of(data);
+        response.setMsg(msg);
+        return response;
+    }
+
     public static <T> Response<T> fail(int code, String msg) {
         Response<T> response = new Response<T>();
         response.setData(null);
