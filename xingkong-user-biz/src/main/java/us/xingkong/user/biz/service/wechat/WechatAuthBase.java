@@ -2,7 +2,6 @@ package us.xingkong.user.biz.service.wechat;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -51,21 +50,31 @@ public abstract class WechatAuthBase {
         String userInfoUrl = this.userInfoUrl(authToken);
 
         CloseableHttpClient client = HttpClients.createDefault();
-        HttpGet getToken = new HttpGet(tokenUrl);
+        HttpGet getToken = new HttpGet(userInfoUrl);
         try {
             HttpResponse response = client.execute(getToken);
             HttpEntity httpEntity = response.getEntity();
             if (response.getStatusLine().getStatusCode() == 200) {
                 JSONObject object = JSONObject.parseObject(ZfUtils.toEncoding(httpEntity.getContent(), "UTF-8"));
-
+                WechatUserInfoResponse buildResponse = WechatUserInfoResponse.builder()
+                        .openId(authToken.getOpenId())
+                        .unionid(object.getString("unionid"))
+                        .city(object.getString("city"))
+                        .country(object.getString("country"))
+                        .nickname(object.getString("nickname"))
+                        .headimgurl(object.getString("headimgurl"))
+                        .province(object.getString("province"))
+                        .sex(object.getInteger("sex"))
+                        .build();
+                Responses.of(buildResponse);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return Responses.fail(500, "未知错误");
     }
 
-    private WechatAuthToken getToken(String tokenUrl) {
+    protected WechatAuthToken getToken(String tokenUrl) {
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet getToken = new HttpGet(tokenUrl);
         try {
@@ -87,7 +96,7 @@ public abstract class WechatAuthBase {
         return null;
     }
 
-    private String accessTokenUrl(String code) {
+    protected String accessTokenUrl(String code) {
         return UrlBuilder.fromBaseUrl(wechatEnum.accessToken())
                 .buildWithParam("appid", idAndSecret.getAppid())
                 .buildWithParam("secret", idAndSecret.getSecret())
@@ -96,7 +105,7 @@ public abstract class WechatAuthBase {
                 .build();
     }
 
-    private String userInfoUrl(WechatAuthToken authToken) {
+    protected String userInfoUrl(WechatAuthToken authToken) {
         return UrlBuilder.fromBaseUrl(wechatEnum.userInfo())
                 .buildWithParam("access_token", authToken.getAccessToken())
                 .buildWithParam("openid", authToken.getOpenId())
@@ -104,7 +113,7 @@ public abstract class WechatAuthBase {
                 .build();
     }
 
-    private String refreshTokenUrl(WechatAuthToken authToken) {
+    protected String refreshTokenUrl(WechatAuthToken authToken) {
         return UrlBuilder.fromBaseUrl(wechatEnum.refreshToken())
                 .buildWithParam("appid", idAndSecret.getAppid())
                 .buildWithParam("refresh_token", authToken.getRefreshToken())

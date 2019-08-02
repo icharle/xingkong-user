@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import us.xingkong.user.api.enums.WechatEnum;
 import us.xingkong.user.api.remoteservice.WechatPublicAuthApi;
+import us.xingkong.user.api.request.WechatAuthCallbackRequest;
+import us.xingkong.user.api.utils.Response;
+import us.xingkong.user.api.utils.Responses;
+import us.xingkong.user.biz.entity.WechatAuthToken;
 import us.xingkong.user.biz.entity.WechatIdAndSecret;
 import us.xingkong.user.biz.service.wechat.WechatAuthBase;
 
@@ -15,7 +19,7 @@ import us.xingkong.user.biz.service.wechat.WechatAuthBase;
  */
 @Data
 @Service
-@PropertySource(value={"classpath:classpath:config/wechat/wechat.properties"})
+@PropertySource(value = {"classpath:classpath:config/wechat/wechat.properties"})
 public class WechatPublicAuthApiImpl extends WechatAuthBase implements WechatPublicAuthApi {
 
     @SuppressWarnings("static-access")
@@ -28,5 +32,11 @@ public class WechatPublicAuthApiImpl extends WechatAuthBase implements WechatPub
 
     public WechatPublicAuthApiImpl() {
         super(WechatEnum.WECHAT_OPEN, new WechatIdAndSecret(appid, secret));
+    }
+
+    public Response<String> silentLogin(WechatAuthCallbackRequest wechatAuthCallbackRequest) {
+        String tokenUrl = this.accessTokenUrl(wechatAuthCallbackRequest.getCode());
+        WechatAuthToken authToken = this.getToken(tokenUrl);
+        return Responses.of(authToken.getOpenId());
     }
 }

@@ -1,5 +1,6 @@
 package us.xingkong.user.api.response;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.io.Serializable;
  * @Date: 2019-08-01 12:04
  */
 @Data
+@Builder
 public class WechatUserInfoResponse implements Serializable {
 
     private String openId;
